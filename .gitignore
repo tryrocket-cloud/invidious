@@ -1,0 +1,10 @@
+# Environment variables
+.env
+
+# Ansible
+.ansible_facts_cache
+
+# Ansible
+.ansible_*_cache/
+ansible.log
+ansible.retry
