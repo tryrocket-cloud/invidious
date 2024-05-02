@@ -1,0 +1,20 @@
+---
+- name: Get latest image tag from Quay
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Get image tags
+      uri:
+        url: 'https://quay.io/api/v1/repository/invidious/invidious/tag?onlyActiveTags=true&page=1&limit=5'
+        method: GET
+        return_content: yes
+      register: response
+
+    - name: Parse image tags
+      set_fact:
+        latest_tag: "{{ response.content }}"
+
+    - name: Print latest tag
+      debug:
+        var: latest_tag
