@@ -24,9 +24,9 @@
     postgres:
       image_tag: "14"
       publish_port: "5432"
-      user: "invidious"
-      password: "invidious"
-      database: "invidious"
+      user: "{{ postgres_user | default('invidious') }}"
+      password: "{{ postgres_password | default('invidious') }}"
+      database: "{{ postgres_database | default('invidious') }}"
 
   roles:
     - { role: tryrocketcloud.homelab.deploy_app }
