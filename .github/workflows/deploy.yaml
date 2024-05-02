@@ -1,0 +1,15 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup:
+    uses: tryrocketcloud/workflows/.gitea/workflows/setup-runner.yaml@v0.0.4
+
+  deploy:
+    uses: tryrocketcloud/workflows/.gitea/workflows/deployment.yaml@v0.0.4
+    secrets:
+      ANSIBLE_SSH_PRIVATE_KEY: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
