@@ -1,0 +1,39 @@
+name: Restart
+
+on:
+  schedule:
+    - cron: '4 5 * * *'
+
+jobs:
+  setup:
+    uses: tryrocketcloud/workflows/.gitea/workflows/setup-runner.yaml@v0.0.4
+
+  restart:
+    uses: tryrocketcloud/workflows/.gitea/workflows/restarts.yaml@v0.0.4
+    with:
+      service: invidious
+    secrets:
+      ANSIBLE_SSH_PRIVATE_KEY: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+
+  ping-success:
+    name: Ping success
+    runs-on: '3080'
+    needs: [restart]
+    steps:
+      - run: |
+          ansible localhost -m community.healthchecksio.ping \
+          -a "state=present signal=success api_token={{api_key}} uuid={{check_uuid}}" -u invidious \
+          -e "check_uuid=${{ vars.HEALTHCHECKS_IO_NIGHTLY_RESTART_CHECK_UUID }}" \
+          -e "api_key=${{ secrets.HEALTHCHECKS_IO_API_KEY }}"          
+
+  ping-failure:
+    name: Ping failure
+    runs-on: '3080'
+    if: ${{ failure() }}
+    needs: [restart]
+    steps:
+      - run: |
+          ansible localhost -m community.healthchecksio.ping \
+          -a "state=present signal=fail api_token={{api_key}} uuid={{check_uuid}}" -u invidious \
+          -e "check_uuid=${{ vars.HEALTHCHECKS_IO_NIGHTLY_RESTART_CHECK_UUID }}" \
+          -e "api_key=${{ secrets.HEALTHCHECKS_IO_API_KEY }}"          
