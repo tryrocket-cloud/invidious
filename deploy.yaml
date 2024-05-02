@@ -1,0 +1,32 @@
+- name: Deploy Invidious
+  hosts: all
+  gather_facts: false
+
+  vars:
+    ns: invidious
+    app: invidious
+    base_directories: [
+      ~/.config/containers/systemd/invidious,
+      ~/postgres/data
+    ]
+    template_files: [
+      invidious.kube.j2,
+      invidious.pod.yaml.j2
+    ]
+    files: [
+      invidious.configmap.yaml
+    ]
+
+    invidious:
+      image_tag: "2024.04.26-eda7444"
+      publish_port: "3009"
+
+    postgres:
+      image_tag: "14"
+      publish_port: "5432"
+      user: "invidious"
+      password: "invidious"
+      database: "invidious"
+
+  roles:
+    - { role: tryrocketcloud.homelab.deploy_app }
