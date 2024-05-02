@@ -1,0 +1,7 @@
+---
+collections:
+  - name: https://gitea.tryrocket.cloud/tryrocketcloud/homelab.git
+    src: https://gitea.tryrocket.cloud/tryrocketcloud/homelab.git
+    type: git
+    version: main
+  - community.healthchecksio
