@@ -7,7 +7,7 @@ on:
 
 jobs:
   restart:
-    runs-on: self-hosted
+    runs-on: rpi2
 
     steps:
       - name: Restart
