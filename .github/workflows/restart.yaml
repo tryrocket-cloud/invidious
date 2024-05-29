@@ -15,7 +15,7 @@ jobs:
         
       - name: Import Secrets
         id: import-secrets
-        uses: hashicorp/vault-action@v2
+        uses: hashicorp/vault-action@v3
         with:
           url: https://vault.tryrocket.cloud
           token: ${{ secrets.VAULT_TOKEN }}
