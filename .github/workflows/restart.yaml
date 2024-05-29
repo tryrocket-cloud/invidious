@@ -19,10 +19,10 @@ jobs:
         with:
           url: https://vault.tryrocket.cloud
           method: approle
-          roleId: 70ed1394-3d8f-ce8e-4ee0-7065c9a23989
-          secretId: 448a5d31-3c44-26cd-b0d5-ab404d762cf2
+          roleId: 0c21fcfd-eb2a-4936-9469-33f96e1a9b21
+          secretId: 848d3fe1-a57e-5953-35f9-1bb575608a62
           secrets: |
-              secret/data/ci/aws accessKey | AWS_ACCESS_KEY_ID ;
+              my-secrets/data/my-secret my-value | MY_VALUE ;
       
       - name: Import Secrets
         id: import-secrets
@@ -33,24 +33,24 @@ jobs:
           secrets: |
               secret/data/ci/aws accessKey | AWS_ACCESS_KEY_ID ;
 
-      - name: Retrieve SSH Key from Vault
-        id: retrieve-ssh-key
-        env:
-          VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
-          VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
-        run: |
-          # Adjust the path to your secret
-          vault kv get -field=private_key secret/path/to/ssh-key > ssh_key.pem
-          cat ssh_key.pem
+      # - name: Retrieve SSH Key from Vault
+      #   id: retrieve-ssh-key
+      #   env:
+      #     VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+      #     VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+      #   run: |
+      #     # Adjust the path to your secret
+      #     vault kv get -field=private_key secret/path/to/ssh-key > ssh_key.pem
+      #     cat ssh_key.pem
           
-      - name: Use SSH Key
-        env:
-          SSH_KEY: ${{ steps.retrieve-ssh-key.outputs.ssh_key }}
-        run: echo "Using retrieved SSH key"
+      # - name: Use SSH Key
+      #   env:
+      #     SSH_KEY: ${{ steps.retrieve-ssh-key.outputs.ssh_key }}
+      #   run: echo "Using retrieved SSH key"
 
-      - name: Restart Ansible
-        run: ansible all \
-          -m systemd \
-          -a "name=invidious state=restarted scope=user" \
-          -u invidious \
-          -e "ansible_ssh_private_key_file=$SSH_KEY"
+      # - name: Restart Ansible
+      #   run: ansible all \
+      #     -m systemd \
+      #     -a "name=invidious state=restarted scope=user" \
+      #     -u invidious \
+      #     -e "ansible_ssh_private_key_file=$SSH_KEY"
