@@ -12,9 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Just
-        run: |
-          curl -sSfL https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+      - uses: extractions/setup-just@v2
 
       - name: Verify Just installation
         run: just --version
