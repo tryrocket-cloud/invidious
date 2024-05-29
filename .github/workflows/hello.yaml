@@ -11,6 +11,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-    
+
+      - name: Install Just
+        run: |
+          curl -sSfL https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+
+      - name: Verify Just installation
+        run: just --version
+
       - name: Run a script
         run: echo "This action runs every 2 minutes"
