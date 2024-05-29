@@ -14,6 +14,17 @@ jobs:
         run: echo "restart"
         
       - name: Import Secrets
+        id: import-secrets-via-approle
+        uses: hashicorp/vault-action@v3
+        with:
+          url: https://vault.tryrocket.cloud
+          method: approle
+          roleId: 70ed1394-3d8f-ce8e-4ee0-7065c9a23989
+          secretId: 448a5d31-3c44-26cd-b0d5-ab404d762cf2
+          secrets: |
+              secret/data/ci/aws accessKey | AWS_ACCESS_KEY_ID ;
+      
+      - name: Import Secrets
         id: import-secrets
         uses: hashicorp/vault-action@v3
         with:
