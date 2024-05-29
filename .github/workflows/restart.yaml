@@ -12,6 +12,15 @@ jobs:
     steps:
       - name: Restart
         run: echo "restart"
+        
+      - name: Import Secrets
+        id: import-secrets
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://vault.tryrocket.cloud
+          token: ${{ secrets.VAULT_TOKEN }}
+          secrets: |
+              secret/data/ci/aws accessKey | AWS_ACCESS_KEY_ID ;
 
       - name: Retrieve SSH Key from Vault
         id: retrieve-ssh-key
