@@ -12,7 +12,8 @@ jobs:
     steps:
       - name: Restart
         run: echo "restart"
-        
+
+      # https://github.com/hashicorp/vault-action?tab=readme-ov-file#approle
       - name: Import Secrets
         id: import-secrets-via-approle
         uses: hashicorp/vault-action@v3
