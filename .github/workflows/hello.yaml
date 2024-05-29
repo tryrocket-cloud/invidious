@@ -9,8 +9,5 @@ jobs:
     runs-on: m700
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - name: Run a script
         run: echo "This action runs every 2 minutes"
