@@ -1,8 +1,9 @@
 name: Restart
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+  push:
+    branches:
+      - main
 
 jobs:
   restart:
