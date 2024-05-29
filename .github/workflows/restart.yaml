@@ -1,0 +1,13 @@
+name: Restart
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  hello:
+    runs-on: self-hosted
+
+    steps:
+      - name: Restart
+        run: echo "restart"
